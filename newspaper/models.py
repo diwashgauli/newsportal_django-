@@ -89,3 +89,37 @@ class Advertisement(TimeStampModel):
     def __str__(self):
         return self.title
     
+
+class OurTeam(TimeStampModel):
+    name=models.CharField(max_length=100)
+    postion =models.CharField(max_length=100)
+    image=models.ImageField(upload_to="team_images/%Y/%m/%d",blank=False)
+    description=models.TextField()
+
+    def __str__(self):
+        return self.name
+    
+class Contact(TimeStampModel):
+    name= models.CharField(max_length=100)
+    email= models.EmailField()
+    subject= models.CharField(max_length=200)
+    message= models.TextField()
+
+    def __str__(self):
+        return self.name
+    
+
+    class Meta:
+        ordering= ["created_at"]
+
+
+
+class ContactInformation(TimeStampModel):
+    address = models.TextField("Address", help_text="Enter the full address, e.g., 123 News Street, Suite 456, Metropolis, NY 10001, USA")
+    phone_number = models.CharField("Phone Number", max_length=50)
+    email = models.EmailField("Email")
+    office_hours = models.TextField("Office Hours", help_text="e.g., Mon - Fri: 9:00 AM - 5:00 PM")
+
+    def __str__(self):
+        return self.address
+
