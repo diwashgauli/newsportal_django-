@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from newspaper.models import Post,Advertisement,OurTeam,Contact,ContactInformation
+from newspaper.models import Post,Advertisement,OurTeam,Contact,ContactInformation,Category
 from django.views.generic import ListView, DetailView,TemplateView,CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from newspaper.forms import ContactForm
@@ -77,8 +77,6 @@ class PostListView(SideBarMixin,ListView):
     
     def get_context_data(self,**kwargs):
 
-       
-
         context = super().get_context_data(**kwargs)
         context["featured_post"] = (
             Post.objects.filter(published_at__isnull=False,status="active").order_by("-published_at","-views_count").first()
@@ -95,9 +93,7 @@ class PostDetailView(SideBarMixin,DetailView):
     context_object_name= "post"
 
     def get_queryset(self):
-        query=super().get_queryset()
-        query=query.filter(published_at__isnull=False, status="active")
-        return query
+        return Post.objects.filter(published_at__isnull=False, status="active")
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -138,6 +134,33 @@ class ContactCreateView(SuccessMessageMixin, CreateView):
 
         )
 
+
         return context
 
+#clicking on drop bar category views left
+
+
+
+class PostByCategoryView(SideBarMixin,ListView):
+    model = Post
+    template_name="newsportal/list/list.html"
+    context_object_name="posts"
+    paginate_by=1
+
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = query.filter(
+            published_at__isnull= False,
+            status="active",
+            category_id=self.kwargs["category_id"],
+
+        ).order_by("-published_at")
+        return query
     
+
+class CategoryListView(ListView):
+    model=Category
+    template_name="newsportal/categories.html"
+    context_object_name="categories"
+
