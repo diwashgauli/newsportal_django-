@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from newspaper.models import Post,Advertisement,OurTeam,Contact,ContactInformation,Category
+from newspaper.models import Post,Advertisement,OurTeam,Contact,ContactInformation,Category,Tag
 from django.views.generic import ListView, DetailView,TemplateView,CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from newspaper.forms import ContactForm
@@ -153,7 +153,7 @@ class PostByCategoryView(SideBarMixin,ListView):
         query = query.filter(
             published_at__isnull= False,
             status="active",
-            category_id=self.kwargs["category_id"],
+            category__id=self.kwargs["category_id"],
 
         ).order_by("-published_at")
         return query
@@ -163,4 +163,32 @@ class CategoryListView(ListView):
     model=Category
     template_name="newsportal/categories.html"
     context_object_name="categories"
+
+
+
+class TagsView(ListView):
+    model= Tag
+    template_name="newsportal/tags.html"
+    context_object_name="tags"
+
+
+
+
+class PostByTagView(SideBarMixin,ListView):
+    model = Post
+    template_name="newsportal/list/list.html"
+    context_object_name="posts"
+    paginate_by=1
+
+
+    def get_queryset(self):
+        query = super().get_queryset()
+        query = query.filter(
+            published_at__isnull= False,
+            status="active",
+            tag__id=self.kwargs["tag_id"],
+
+        ).order_by("-published_at")
+        return query
+    
 

@@ -7,7 +7,9 @@ urlpatterns = [
     path("about/",views.AboutView.as_view(),name="about"),
     path("contact/",views.ContactCreateView.as_view(),name="contact"),
     path("post-by-category/<int:category_id>/",views.PostByCategoryView.as_view(),name="post-by-category"),
-    path("all-categories/",views.CategoryListView.as_view(),name="all-categories")
+    path("all-categories/",views.CategoryListView.as_view(),name="all-categories"),
+    path("all-tags/",views.TagsView.as_view(),name="all-tags"),
+    path("post-by-tag/<int:tag_id>/",views.PostByTagView.as_view(),name="post-by-tag")
 
 
 ]
