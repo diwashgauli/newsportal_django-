@@ -1,0 +1,49 @@
+   <!-- Main Content -->
+    <div class="main-content" id="main-content">
+        <header>
+            Manage Your Dashboard
+        </header>
+        <h2>Post List</h2>
+        <a href="{% url 'dashboard:post_add' %}" class="btn btn-success">Add New Post</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Featured Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+                 {% for post in posts %}
+                <tr>
+                    <td>{{post.id}}</td>
+                    <td><img src="{{ post.featured_image.url }}" alt="Featured Image" class="featured-image" style="width:100px; height:120px; object-fit:cover; border:1px solid #ccc; border-radius:4px;">
+</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.category }}</td>
+                <td>
+                    {% for tag in post.tag.all %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                    {% empty %}
+                      No tags
+                    {% endfor %}
+                </td>
+                    <td>
+                        <a href="{% url 'dashboard:post_update' post.id %}" class="btn btn-success">Edit</a>
+
+                       <form action="{% url 'dashboard:post_delete' post.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>

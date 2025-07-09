@@ -11,7 +11,7 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ post.title }}</h5>
                   <p class="card-text">
-                    {{ post.content | truncatechars:100 }}
+                    {{ post.content |striptags | truncatechars:100 }}
                   </p>
                   <p class="card-text">
                     <small class="text-muted">{{post.published_at | date:"F j, Y"}}</small>

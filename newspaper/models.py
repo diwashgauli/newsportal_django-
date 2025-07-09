@@ -123,3 +123,30 @@ class ContactInformation(TimeStampModel):
     def __str__(self):
         return self.address
 
+
+# user-comment 
+# 1 user can add M comments  => M
+# 1 comment is associated to only 1 post => 1
+# ManyTwoOne : ForeignKey => M => comments
+
+
+# comment- Post
+# 1 post has M comments => M
+# 1 comment is associated to only 1 post => 1
+# ManytwoOne : ForeignKey => M => comment
+
+
+class Comment(TimeStampModel):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user= models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    content= models.TextField()
+
+    def __str__(self):
+        return f"{self.content[:50]} | {self.user.username}"
+    
+
+class Newsletter(TimeStampModel):
+    email=models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
