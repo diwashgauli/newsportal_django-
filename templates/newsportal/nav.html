@@ -75,6 +75,10 @@
     <div class="navbar-nav ms-auto d-flex align-items-center">
   {% if user.is_authenticated %}
     <span class="navbar-text me-3">Welcome, {{ user.username }}!</span>
+    {% if request.user.is_staff %}
+    <a href="{% url 'report:users' %}"
+    class="me-2"><i class="bi bi-download"></i></a>
+    {% endif %}
 
     {% if user.is_superuser %}
       <a href="{% url 'dashboard:dashboard' %}" class="btn btn-outline-primary btn-sm me-2">Go to Dashboard</a>

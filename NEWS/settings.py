@@ -43,11 +43,15 @@ INSTALLED_APPS = [
 
     #3rd party
     'django_summernote',
+     'rest_framework',
 
     #local
     'newspaper',
     'accounts',
     'dashboard',
+    'report',
+    'api',
+
 ]
 
 MIDDLEWARE = [
